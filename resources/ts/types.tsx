@@ -1,24 +1,25 @@
-export type Category =  {
+export type StateModel = {
     id: number,
-    parent_id: null | number,
+    country_id: number,
     name: string,
-    sort_order: number,
-    children?: Array<Category>
-    parent?: Category
+    topo_key: string,
+    active: number,
+    recovered: number,
+    deceased: number,
+    total: number,
 }
 
-export interface CategoriesState {    
-    categories: Array<Category>,
-    modalOpen: boolean,
-    modalSubmitUrl: string
-    modalParentId?: number
-}
+export type CountryModel = {
+    id: number,
+    name: string,
+    datamap_scope: string,
+    datamap_topo_url: string,
+    active: number,
+    recovered: number,
+    deceased: number,
+    total: number,
+    states: Array<StateModel>
 
-
-export type CategoryItemProps =  { 
-    category: Category, 
-    index: number,    
-    disabledDown: boolean
 }
     
 
@@ -46,31 +47,12 @@ export type User = {
     last_login: string
 }
 
-
-
-export type Book = {
-    id: number,
-    title: string,    
-    author: string,
-    image_url: string,
-    image_thumbnail: string,
-    categories: Array<Category> | any,
-    isbn: string,
-    issn: string,
-    editorial: string,
-    year_published: string,
-    edition_number: string,
-    pages: string,
-    country: string,
-    observation: string,
-
-    room: string,
-    bookseller: string,
-    shelf: string,
-    quantity: string,
-    admitted_at: string,
-    created_at: string,
-    updated_at: string,
-
-    year_edited: string
+export type Bubble = {
+    centered: string,
+    fillKey: string,
+    radius: number,
+    state: string
 }
+
+
+export type CardType = 'active'|'recovered'|'deceased'|'total'|''

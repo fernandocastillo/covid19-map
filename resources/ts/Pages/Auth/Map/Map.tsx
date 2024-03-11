@@ -1,17 +1,13 @@
-import { useEffect, useRef } from "react"
-//import Datamap from 'datamaps'
+import { useEffect, useState } from "react"
+import { Bubble, CardType } from "../../../types"
 
-export default ()=>{
-
-    const initialized = useRef(false)
-
-    
-
+export default ({
+    bubbles,    
+}:{bubbles: Array<Bubble>})=>{
 
     useEffect(()=>{
-        if (!initialized.current) {
-            initialized.current = true
-        
+        if (bubbles.length>0) {            
+                    
             setTimeout(()=>{
                 const mapProps = {
                     element: document.getElementById('container'),
@@ -66,76 +62,21 @@ export default ()=>{
                 }                
                 const map = new Datamap(mapProps)
                 setTimeout(() => { // only start drawing bubbles on the map when map has rendered completely.
-                map.bubbles([
-                    {
-                        centered: "MH",
-                        fillKey: "MAJOR",
-                        radius: 20,
-                        state: "Maharastra"
-                    },
-                    {
-                        centered: "AP",
-                        fillKey: "MAJOR",
-                        radius: 22,
-                        state: "Andhra Pradesh"
-                    },
-                    {
-                        centered: "TN",
-                        fillKey: "MAJOR",
-                        radius: 16,
-                        state: "Tamil Nadu"
-                    },
-                    {
-                        centered: "WB",
-                        fillKey: "MEDIUM",
-                        radius: 15,
-                        state: "West Bengal"
-                    },
-                    {
-                        centered: "MP",
-                        fillKey: "MEDIUM",
-                        radius: 15,
-                        state: "Madhya Pradesh"
-                    },
-                    {
-                        centered: "UP",
-                        fillKey: "MINOR",
-                        radius: 8,
-                        state: "Uttar Pradesh"
-                    },
-                    {
-                        centered: "RJ",
-                        fillKey: "MINOR",
-                        radius: 7,
-                        state: "Rajasthan"
-                    }
-                      
-                ], {
+                map.bubbles(bubbles, {
                     popupTemplate: function(geo, data) {
-                      return '<div class="hoverinfo">State:' + data.state  + ''
+                      return '<div class="hoverinfo">' + data.state  + ''
                     }
                   })
                 },1000)
-            },1000)
+            },300)
           }
         
-    })
+    },[bubbles])
 
-    
-    
-    
-    
-    return (
-        <>  
-            <div className="grid grid-cols-1 md:grid-cols-2">
-                <div>
-                    <div id="container"  className="w-full min-h-[500px]"></div>    
-                </div>
-                <div>b</div>
-            </div>
-            
 
-            
-        </>
-    )
+    return <>
+    { 
+        bubbles && bubbles.length >0 ? (<div id="container"  className="w-full min-h-[500px]"></div>) : null 
+    }
+    </>
 }
