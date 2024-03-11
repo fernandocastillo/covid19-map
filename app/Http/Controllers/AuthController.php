@@ -16,6 +16,11 @@ class AuthController extends Controller
         return Inertia::render('Guest/Login');
     }
 
+    public function registerView()
+    {        
+        return Inertia::render('Guest/Register');
+    }
+
     public function login(Request $request)
     {        
 
@@ -42,5 +47,24 @@ class AuthController extends Controller
             );
             return redirect()->back()->withErrors($validator)->withInput();
         }
+    }
+
+    public function register(Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users',            
+            'password' => 'required|confirmed|min:5'
+        ]);
+
+        $data = $request->only('name','email', 'password');
+        $data['last_login'] = date('Y-m-d H:i:s');
+        
+        $user = User::create($data);        
+        auth()->login($user);
+
+        $request->session()->put('success', "Account successfully registered.");
+
+        return Inertia::location(url('/')); // <-- force to refresh the template due Blade @auth directive in app.blade.php    
     }
 }
