@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,17 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [MapController::class, 'index'])->name('map');
     Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
+
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('users.index');
+        Route::get('/new', [UsersController::class, 'new'])->name('users.new');
+        Route::post('/', [UsersController::class, 'create'])->name('users.create');
+
+        Route::prefix('/{id}')->group(function(){
+            Route::get('/', [UsersController::class, 'edit'])->name('users.edit');
+            Route::put('/', [UsersController::class, 'update'])->name('users.update');
+            Route::delete('/', [UsersController::class, 'delete'])->name('users.delete');
+        });
+    });
 });

@@ -54,7 +54,7 @@ export default ({
             <div className="flex items-center justify-between py-5 lg:py-6">
                 <div className="flex items-center space-x-1">
                     <h2 className="text-xl font-medium text-slate-700 line-clamp-1 dark:text-navy-50 lg:text-2xl">
-                    { user ? 'Editar Usuario' : 'Nuevo usuario'}
+                    { user ? 'Update User' : 'New User'}
                     </h2>                
                 </div>                
             </div>
@@ -64,13 +64,13 @@ export default ({
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-5">
                         <InputText
-                            label="Nombre"
+                            label="Name"
                             value={data.name}
                             onChange={value => setData('name',value)}
                             error={errors.name}
                         />
                         <InputText
-                            label="Usuario"
+                            label="Email"
                             value={data.email}
                             onChange={value => setData('email',value)}
                             error={errors.email}
@@ -79,14 +79,14 @@ export default ({
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2  mb-5">
                         <InputText
-                            label="Contraseña"
+                            label="Password"
                             value={data.password}
                             onChange={value => setData('password',value)}
                             error={errors.password}
                             type="password"
                         />
                         <InputText
-                            label="Confirmación de contraseña"
+                            label="Password confirmation"
                             value={data.password_confirmation}
                             onChange={value => setData('password_confirmation',value)}
                             error={errors.password_confirmation}
@@ -95,14 +95,9 @@ export default ({
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2  mb-5">
+                        
                         <Switch
-                            label="Super Admin"
-                            value={data.is_super_admin}
-                            onChange={(value:boolean) => setData('is_super_admin',value)}
-                            error={errors.is_super_admin}                        
-                        />
-                        <Switch
-                            label="Esta activo"
+                            label="Is active"
                             value={data.is_active}
                             onChange={(value:boolean) => setData('is_active',value)}
                             error={errors.is_active}                        
@@ -111,7 +106,7 @@ export default ({
 
                     <div className="flex justify-end space-x-3">                    
                         <BackButton />
-                        <Button type="submit" loading={processing}>{!user ? 'Crear': 'Actualizar'}</Button>
+                        <Button type="submit" loading={processing}>{!user ? 'Create': 'Update'}</Button>
                     </div>
                 </form>
             </div>

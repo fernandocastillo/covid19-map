@@ -26,12 +26,12 @@ export default ({
             <div className="flex items-center justify-between py-5 lg:py-6">
                 <div className="flex items-center space-x-1">
                     <h2 className="text-xl font-medium text-slate-700 line-clamp-1 dark:text-navy-50 lg:text-2xl">
-                    Usuarios
+                    Users
                     </h2>                
                 </div>
                 <div className="flex items-center space-x-1">
                     <SimpleButton action={()=> router.get('/users/new')}>
-                        Agregar
+                        Add
                     </SimpleButton>
                 </div>
             </div>
@@ -42,22 +42,20 @@ export default ({
                     <tr className="border border-transparent border-b-slate-200 dark:border-b-navy-500">
                         
                         <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Usuario
+                        Email
                         </th>
                         <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Nombre
+                        Name
                         </th>
                         <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Esta activo
+                        Is Active
+                        </th>
+                        
+                        <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
+                        Created At
                         </th>
                         <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Administrador
-                        </th>
-                        <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Creado
-                        </th>
-                        <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5">
-                        Último ingreso
+                        Last Login
                         </th>
                         <th className="whitespace-nowrap px-3 py-3 font-semibold uppercase text-slate-800 dark:text-navy-100 lg:px-5"></th>
                     </tr>
@@ -68,8 +66,7 @@ export default ({
                                 <tr className="border border-transparent border-b-slate-200 dark:border-b-navy-500" key={`user-${user.id}`}>                                    
                                     <td className="whitespace-nowrap px-4 py-3 sm:px-5"><Link href={`/users/${user.id}`} className="text-orange-500">{user.email}</Link></td>
                                     <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.name}</td>
-                                    <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.is_active ? 'Si' : 'No'}</td>
-                                    <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.is_super_admin ? 'Si' : 'No'}</td>
+                                    <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.is_active ? 'Si' : 'No'}</td>                                    
                                     <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.created_at}</td>
                                     <td className="whitespace-nowrap px-4 py-3 sm:px-5">{user.last_login}</td>
                                     <td className="whitespace-nowrap px-4 py-3 sm:px-5"><DeleteButton user={user} /></td>                                    

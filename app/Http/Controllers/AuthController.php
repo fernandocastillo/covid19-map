@@ -29,14 +29,16 @@ class AuthController extends Controller
         }
 
         $validated = $validator->validated();
-        
-        if (Auth::attempt(array('email' => $validated['email'], 'password' => $validated['password']), $request->get('remember', false))) {
-            //return redirect()->route('index');            
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($user && $user->is_active && Auth::attempt(array('email' => $validated['email'], 'password' => $validated['password']), $request->get('remember', false))) {
+            //return redirect()->route('index');
+            Auth::user()->update(['last_login'=>date('Y-m-d H:i:s')]);
             return Inertia::location(url('/')); // <-- force to refresh the template due Blade @auth directive in app.blade.php
 
         } else {
             $validator->errors()->add(
-                'password', 'La contraseña no coincide con tu usuario o tu cuenta ha sido desactivada.'
+                'password', 'Your password does not match with your email or your account has been deactivated.'
             );
             return redirect()->back()->withErrors($validator)->withInput();
         }

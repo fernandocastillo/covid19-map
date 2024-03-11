@@ -47,7 +47,7 @@ export default function Confirm(){
                                 as="h3"
                                 className="text-2xl font-medium leading-6 text-gray-900 text-center mb-10"
                             >
-                                ¿Estás seguro?
+                                Are you sure?
                             </Dialog.Title>
                             <div className="flex mt-4 justify-around">
                                     <button
@@ -55,14 +55,14 @@ export default function Confirm(){
                                         className="btn bg-orange-500 font-medium text-white hover:bg-orange-700 focus:bg-orange-700 active:bg-orange-700/80 dark:bg-navy-500 dark:text-navy-50 dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90"
                                         onClick={()=>{dispatch(confirmed()) }}
                                         >
-                                    Continuar
+                                    Continue
                                     </button>
                                     <button
                                         type="button"
                                         className="btn bg-slate-150 font-medium text-slate-800 hover:bg-slate-200 focus:bg-slate-200 active:bg-slate-200/80 dark:bg-navy-500 dark:text-navy-50 dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90"
                                         onClick={()=>close()}
                                         >
-                                    Cancelar
+                                    Cancel
                                     </button>
                                 </div>
                             
