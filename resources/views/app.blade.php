@@ -11,12 +11,18 @@
     <link rel="apple-touch-icon" href="{{ asset('/img/pwa72.png') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
 
+    <!-- DATAMAPS -->    
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.world.min.js" integrity="sha512-ShMIwoBgGctXjiRZubJipPPimOnfP7JgsipylJsQ0mlQaHltZJM5MK4u/7QaBd2bWwDDQ93eDdorzUBC3PJBOA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    
     @vite(['resources/css/app.css', 'resources/ts/app.tsx'])
     @inertiaHead
   </head>
   <body>
     @inertia
-
+    
     <script src="{{ asset('/sw.js') }}"></script>
     <script>
     if ("serviceWorker" in navigator) {
