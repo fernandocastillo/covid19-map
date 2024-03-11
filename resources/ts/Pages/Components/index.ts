@@ -1,0 +1,13 @@
+export { default as Text } from "./Text";
+export { default as Button } from "./Button";
+export { default as Checkbox } from "./Checkbox";
+export { default as Confirm } from "./Confirm";
+export { default as SimpleButton } from "./SimpleButton";
+export { default as BackButton } from "./BackButton";
+export { default as InputText } from "./InputText";
+export { default as Switch } from "./Switch";
+export { default as Drawer } from "./Drawer";
+export { default as Pagination } from "./Pagination";
+export { default as Select } from "./Select";
+export { default as TextArea } from "./TextArea";
+export { default as FileImage } from "./FileImage";

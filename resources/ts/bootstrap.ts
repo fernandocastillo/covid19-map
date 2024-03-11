@@ -5,9 +5,9 @@
  */
 
 import axios from 'axios';
-window.axios = axios;
+(window as any).axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+(window as any).axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -30,3 +30,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+declare global {
+    interface Array<T> {
+        move(from: number, to:number): void;
+    }
+}
+
+Array.prototype.move = function (from: number, to:number) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+};
