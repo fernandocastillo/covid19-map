@@ -1,7 +1,11 @@
 
-## COVID19 Map challenge system
+## COVID19 Map  - PWA system
 
-## Installation
+For this challenge I used Laravel 10, React, Tailwind 3, InertiaJs and Datamaps.
+
+This system can be installed as PWA (Progress web application) in your desktop or mobile device.
+
+## Laravel 10 Install
 
 ```sh
 composer install
@@ -30,6 +34,7 @@ http://localhost:8000
 Default user: admin@admin.com
 Default password: 12345678
 ```
+
 
 
 ## Developer
