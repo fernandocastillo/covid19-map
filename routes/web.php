@@ -27,6 +27,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [MapController::class, 'index'])->name('map');
+    Route::put('/sync', [MapController::class, 'sync'])->name('map.sync');
     Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
 
 

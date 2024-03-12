@@ -13,8 +13,14 @@ class MapController extends Controller
 
         $countries = CountryResource::collection( Country::with('states')->get());
         return Inertia::render('Auth/Map/Index',[
-            'countries' => $countries
+            'countries' => $countries,
+            'countriesAdded' => CountryResource::collection(auth()->user()->countries)
         ]);
+    }
+
+    public function sync(Request $request){
+        $request->user()->countries()->sync($request->countries);
+        return response()->json([]);
     }
     
 }

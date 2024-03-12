@@ -45,4 +45,8 @@ class User extends Authenticatable
         'password' => 'hashed',
         'last_login' => 'datetime',
     ];
+
+    public function countries(){
+        return $this->belongsToMany(Country::class);
+    }
 }

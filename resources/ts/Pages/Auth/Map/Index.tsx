@@ -4,16 +4,23 @@ import Country from "./Country"
 import { CountryModel,CardType, Bubble, StateModel } from "../../../types"
 import { useState } from "react"
 import State from "./State"
+import axios from "axios"
 
 export default ({
-    countries
-}:{ countries: {data: Array<CountryModel>} })=>{
-
+    countries,
+    countriesAdded: countriesAddedBackend
+}:{ countries: {data: Array<CountryModel>}, countriesAdded:{data: Array<CountryModel>} })=>{    
 
     const [countrySelected, setCountrySelected] = useState('')
     const [countryInTheMap, setCountryInTheMap] = useState<CountryModel | null>()
-    const [countriesAdded, setCountriesAdded] = useState<Array<CountryModel>>([])    
+    const [countriesAdded, setCountriesAdded] = useState<Array<CountryModel>>([...countriesAddedBackend.data])    
     const [stateSelected, setStateSelected] = useState<StateModel | 'not_found'>()
+
+    const syncUserCountries = (countries:any)=>{
+        axios.put('/sync',{
+            countries
+        })
+    }
     
     const onAdd=()=>{
         const exist = countriesAdded.find(e=>e.id== parseInt(countrySelected))
@@ -25,6 +32,7 @@ export default ({
             setCountriesAdded([...tmp])
 
             if(!countryInTheMap) setCountryInTheMap({...found})
+            syncUserCountries([...tmp].map(c=>c.id))
         }  
     }
 
@@ -32,6 +40,7 @@ export default ({
         const tmp = [...countriesAdded]
         tmp.splice(i,1)
         setCountriesAdded([...tmp])
+        syncUserCountries([...tmp].map(c=>c.id))
     }
 
     const onChangeMap =(country_id:number)=>{
