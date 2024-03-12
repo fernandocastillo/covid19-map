@@ -1,8 +1,9 @@
 
 import Map from "./Map"
 import Country from "./Country"
-import { CountryModel,CardType, Bubble } from "../../../types"
+import { CountryModel,CardType, Bubble, StateModel } from "../../../types"
 import { useState } from "react"
+import State from "./State"
 
 export default ({
     countries
@@ -10,60 +11,65 @@ export default ({
 
 
     const [countrySelected, setCountrySelected] = useState('')
-    const [countriesAdded, setCountriesAdded] = useState<Array<CountryModel>>([])
-    const [bubbles, setBubbles] = useState<Array<Bubble>>([])
-
+    const [countryInTheMap, setCountryInTheMap] = useState<CountryModel | null>()
+    const [countriesAdded, setCountriesAdded] = useState<Array<CountryModel>>([])    
+    const [stateSelected, setStateSelected] = useState<StateModel | 'not_found'>()
+    
     const onAdd=()=>{
+        const exist = countriesAdded.find(e=>e.id== parseInt(countrySelected))
+        if(exist) return
         const found = countries.data.find(e=>e.id == parseInt(countrySelected))
         if(found){
             const tmp = [...countriesAdded]
             tmp.push(found)
             setCountriesAdded([...tmp])
-        }        
+
+            if(!countryInTheMap) setCountryInTheMap({...found})
+        }  
     }
 
-    const onDelete = (i:number)=>{
-        setBubbles([])
+    const onDelete = (i:number)=>{        
         const tmp = [...countriesAdded]
         tmp.splice(i,1)
         setCountriesAdded([...tmp])
     }
 
-    const onSelectCardMap = (card: CardType, country_id: number)=>{        
-
-        const c = countriesAdded.find(e=>e.id==country_id)
-        if(c && card!=''){
-            
-
-            const max = Math.max(...c.states.map(s=>s[card]))
-            
-            const tmpBubbles = c.states.map(state=>{
-                //@ts-ignore
-                const radius = parseInt((state[card] * 20) / max)
-                
-
-                return {
-                    centered: state.topo_key,
-                    fillKey: "MINOR",
-                    radius,
-                    state: `${state.name } with ${state[card]} ${card}`
-                }          
-            })
-
-            setBubbles([...tmpBubbles])
-            
+    const onChangeMap =(country_id:number)=>{
+        setCountryInTheMap(null)
+        const found = countries.data.find(e=>e.id == country_id)
+        if(found) {
+            setTimeout(()=>{
+                setCountryInTheMap({...found})
+            },300);
         }
-        
+    }
+    
 
+    const onSelectState  = (id:string)=>{
+        const state = countryInTheMap?.states.find(s=>s.topo_key==id)
+        if(state) {
+            
+            setStateSelected({...state})
+        }else{
+            setStateSelected('not_found')
+        }
     }
     
     return (
         <>  
             <div className="grid grid-cols-1 md:grid-cols-2 p-5">
                 <div>
-                    <Map 
-                        bubbles={bubbles}                        
-                         />
+                    {countryInTheMap ? (
+                        <Map                             
+                            dataUrl={countryInTheMap?.datamap_topo_url}
+                            scope={countryInTheMap?.datamap_scope}
+                            scale={countryInTheMap?.datamap_scale}
+                            center_x={countryInTheMap?.datamap_center_x}
+                            center_y={countryInTheMap?.datamap_center_y}
+                            selectState={onSelectState}                            
+                            />
+                    ): null}
+                    
                 </div>
                 <div className=" space-y-4">
 
@@ -95,15 +101,12 @@ export default ({
                     { countriesAdded.map((c,i)=> <Country 
                         key={`country-added-${i}`} country={c} 
                         onDelete={()=>onDelete(i)} 
-                        onSelectCardMap={(card: CardType, country_id: number)=>{
-                            setBubbles([])
-                            setTimeout(()=>{
-                                onSelectCardMap(card, country_id)
-                            },500)
-                            
-                        }} 
+                        onChangeMap={onChangeMap}
+                        
                     />)}
 
+
+                    {stateSelected  ? <State state={stateSelected} /> : null}
                     
                 </div>
                 </div>

@@ -1,23 +1,33 @@
-import { useEffect, useState } from "react"
-import { Bubble, CardType } from "../../../types"
+import { useEffect } from "react"
+import { Bubble } from "../../../types"
 
-export default ({
-    bubbles,    
-}:{bubbles: Array<Bubble>})=>{
+
+export default ({    
+    dataUrl,
+    scope,
+    scale,
+    center_x,
+    center_y,
+    selectState,
+}:{dataUrl?: string, scope?: string, scale?: number, center_x?: number, center_y?: number, selectState?: any})=>{
+
+
+    
 
     useEffect(()=>{
-        if (bubbles.length>0) {            
+        if (scope) {
                     
             setTimeout(()=>{
                 const mapProps = {
                     element: document.getElementById('container'),
-                    scope: "india",
+                    scope,
+                    responsive: true,
                     geographyConfig: {
                         popupOnHover: true,
                         highlightOnHover: true,
                         borderColor: "#444",
                         borderWidth: 0.5,
-                        dataUrl: "https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json"
+                        dataUrl
                         //dataJson: topoJsonData
                     },
                     bubblesConfig: {
@@ -53,30 +63,28 @@ export default ({
                     setProjection: function (element) {
                         var projection = d3.geo
                         .mercator()
-                        .center([80, 25])
-                        .scale(800)
+                        .center([center_x, center_y])
+                        .scale(scale)                        
                         .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
                         var path = d3.geo.path().projection(projection);
                         return { path: path, projection: projection };
+                    },
+                    done: function(datamap) {
+                        datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {                            
+                            selectState(geography.id)                            
+                        });
                     }
                 }                
-                const map = new Datamap(mapProps)
-                setTimeout(() => { // only start drawing bubbles on the map when map has rendered completely.
-                map.bubbles(bubbles, {
-                    popupTemplate: function(geo, data) {
-                      return '<div class="hoverinfo">' + data.state  + ''
-                    }
-                  })
-                },1000)
+                const map = new Datamap(mapProps)                
+                // Pure JavaScript
+                window.addEventListener('resize', function() {
+                    map.resize();
+                });                
             },300)
           }
         
-    },[bubbles])
+    },[scope])
 
 
-    return <>
-    { 
-        bubbles && bubbles.length >0 ? (<div id="container"  className="w-full min-h-[500px]"></div>) : null 
-    }
-    </>
+    return <div id="container"  className="w-full min-h-[500px]"></div>
 }
