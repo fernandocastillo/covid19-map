@@ -1,7 +1,7 @@
 
 import Map from "./Map"
 import Country from "./Country"
-import { CountryModel,CardType, Bubble, StateModel } from "../../../types"
+import { CountryModel, StateModel } from "../../../types"
 import { useState } from "react"
 import State from "./State"
 import axios from "axios"
@@ -14,7 +14,7 @@ export default ({
     const [countrySelected, setCountrySelected] = useState('')
     const [countryInTheMap, setCountryInTheMap] = useState<CountryModel | null>()
     const [countriesAdded, setCountriesAdded] = useState<Array<CountryModel>>([...countriesAddedBackend.data])    
-    const [stateSelected, setStateSelected] = useState<StateModel | 'not_found'>()
+    const [stateSelected, setStateSelected] = useState<StateModel | 'not_found'>()    
 
     const syncUserCountries = (countries:any)=>{
         axios.put('/sync',{
@@ -58,7 +58,16 @@ export default ({
         const state = countryInTheMap?.states.find(s=>s.topo_key==id)
         if(state) {
             
-            setStateSelected({...state})
+            setStateSelected({...state})                        
+                
+            setTimeout(()=>{
+                const p = {
+                    [id]: { fillKey: "MINOR" },
+                }                
+                //@ts-ignore                    
+                window.mappy.updateChoropleth(p, {reset: true})
+            },200)
+                                    
         }else{
             setStateSelected('not_found')
         }
@@ -75,7 +84,7 @@ export default ({
                             scale={countryInTheMap?.datamap_scale}
                             center_x={countryInTheMap?.datamap_center_x}
                             center_y={countryInTheMap?.datamap_center_y}
-                            selectState={onSelectState}                            
+                            selectState={onSelectState}                               
                             />
                     ): null}
                     

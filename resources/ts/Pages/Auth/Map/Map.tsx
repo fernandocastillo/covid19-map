@@ -1,6 +1,4 @@
 import { useEffect } from "react"
-import { Bubble } from "../../../types"
-
 
 export default ({    
     dataUrl,
@@ -9,6 +7,7 @@ export default ({
     center_x,
     center_y,
     selectState,
+    
 }:{dataUrl?: string, scope?: string, scale?: number, center_x?: number, center_y?: number, selectState?: any})=>{
 
 
@@ -76,6 +75,8 @@ export default ({
                     }
                 }                
                 const map = new Datamap(mapProps)                
+                window.mappy = map
+                            
                 // Pure JavaScript
                 window.addEventListener('resize', function() {
                     map.resize();
